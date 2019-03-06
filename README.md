@@ -1,1 +1,1 @@
-# Tidiots
+# Q&A Education Solution
