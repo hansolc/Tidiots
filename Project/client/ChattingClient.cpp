@@ -118,6 +118,7 @@ SendThread::SendThread(SOCKET cs) : client_socket(cs) {
 
 std::string SendThread::LoginRequestMessageToJson(std::string message)
 {
+	// summery : Client -> LoginServer 전송하기 이전에 메세지 Json Formatting.
 	Json::Value root;
 	root["type"] = LOGIN_PASS;
 	root["id"] = message;
@@ -164,6 +165,7 @@ RecvThread::RecvThread(SOCKET cs, ChattingClient& cc) : client_socket(cs), chatt
 
 Json::Value RecvThread::LoginRequestMessageRecv(std::string message)
 {
+	// summery : LoginServer -> Client 메세지를 Json Parsing.
 	Json::Reader reader;
 	Json::Value root;
 	reader.parse(message, root);

@@ -58,7 +58,7 @@ private:
 	SOCKET client_socket;
 
 public:
-	enum { LOGIN_PASS = 0 };
+	enum { LOGIN_PASS = 0 }; // 메세지 타입 정의
 
 	SendThread(SOCKET cs);
 	virtual DWORD run(void);
@@ -75,7 +75,7 @@ private:
 	
 
 public:
-	enum { LOGIN_PASS = 0 };
+	enum { LOGIN_PASS = 0 }; // 메세지 타입 정의
 
 	RecvThread(SOCKET cs, ChattingClient& cc);
 	virtual DWORD run(void);

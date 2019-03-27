@@ -70,6 +70,7 @@ DWORD User::run(void) {
 
 bool User::JsonLoginMessageRecv(std::string message)
 {
+	// summery : Client -> LoginServer 메세지 Json Parsing, 계정 정보의 유효성 확인
 	Json::Reader reader;
 	Json::Value root;
 	reader.parse(message,root);
@@ -93,12 +94,13 @@ bool User::JsonLoginMessageRecv(std::string message)
 
 std::string User::JsonLoginMessageSend(bool pass)
 {
+	// summery : LoginServer -> Client 메세지 송신 이전에 Json Formatting.
 	Json::Value root;
 	Json::FastWriter fastWriter;
 	root["type"] = 0;
 	root["pass"] = pass;
-	root["ip"] = "127.0.0.1"; // 메인서버의 고정 ip, port 송신
-	root["port"] = 3495;
+	root["ip"] = "127.0.0.1"; // 메인서버의 고정 ip
+	root["port"] = 3495;	  // 메인서버의 고정 port
 	return fastWriter.write(root);
 }
 
@@ -125,8 +127,8 @@ void User::recvMessage(char *buf) {
 	else
 	{
 		std::string message = JsonLoginMessageSend(false);
-		cout << "id mismatch. " << " (" << getIP() << " : " << getPort() << ")" << endl;
 		sendMessage(getSocket(), message.c_str());
+		cout << "id mismatch. " << " (" << getIP() << " : " << getPort() << ")" << endl;
 	}
 }
 
