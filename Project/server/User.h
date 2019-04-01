@@ -30,12 +30,11 @@ private:
 	SOCKADDR_IN client_address;
 	static const int MAXSTRLEN;
 
-	bool JsonLoginMessageRecv(std::string message);
+	void ParseMessage(std::string message);
 	std::string JsonLoginMessageSend(bool pass);
 	void recvMessage(char *buf);
 	void User::sendMessage(SOCKET socket, const char *buf = nullptr);
 public:
-	enum { LOGIN_PASS = 0 };
 
 	User(SOCKET cs, SOCKADDR_IN ca);
 	User(const User &user) {}
@@ -50,9 +49,6 @@ public:
 	void User::sendMessageAll(const char *buf = nullptr);
 
 	DWORD run(void);
-	void printLeaveUser(const User &user) const;
-	bool login_check(const char* buf);
-
 };
 
 #endif

@@ -1,3 +1,4 @@
+#pragma once
 
 #include "client_App.h"
 
@@ -24,7 +25,9 @@ void client_App::start() {
 
 	chattingclient = new ChattingClient(this->serverip, this->serverport);
 
-	try {
+	result = chattingclient->run();
+
+	/*try {
 		result = chattingclient->run();
 	}
 	catch (ChatException e) {
@@ -37,7 +40,7 @@ void client_App::start() {
 	}
 	else {
 		printError();
-	}
+	}*/
 }
 
 void client_App::printStart() {

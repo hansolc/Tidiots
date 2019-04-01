@@ -17,6 +17,11 @@ using std::stringstream;
 using std::cout;
 using std::endl;
 
+namespace MessageType
+{
+	enum Type { LOGIN_PASS = 1, TEXT_MESSAGE = 2, ENTERROOM_REQUSET = 3 };
+}
+
 class main_server_App {
 private:
 	ChattingServer chattingserver;
@@ -29,6 +34,7 @@ public:
 	void printExceedUser(const User *) const;
 
 	static vector<User*> userList;
+	static vector<User*> Room_userList;
 	static HANDLE hMutex;
 };
 

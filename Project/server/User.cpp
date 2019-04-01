@@ -48,7 +48,7 @@ DWORD User::run(void) {
 			}
 			else
 			{
-				cout << "(" << getIP() << " : " << getPort() << ")" << " User disconnected."  << endl;
+				cout << "(" << getIP() << " : " << getPort() << ")" << " User disconnected." << endl;
 				break;
 			}
 		}
@@ -68,28 +68,39 @@ DWORD User::run(void) {
 	return 0;
 }
 
-bool User::JsonLoginMessageRecv(std::string message)
+void User::ParseMessage(std::string message)
 {
 	// summery : Client -> LoginServer 메세지 Json Parsing, 계정 정보의 유효성 확인
 	Json::Reader reader;
 	Json::Value root;
-	reader.parse(message,root);
+	reader.parse(message, root);
 	int type = root["type"].asInt();
 
 	switch (type)
 	{
-	case LOGIN_PASS:
+	case MessageType::LOGIN_PASS:
 		if (root["id"].asString() == "abc") // ID 대조 작업, 추후에 DB를 연동한 계정 대조 기능 추가해야 함.
 		{
-			cout << "id match!" << endl;
-			return true;
+			cout << "value : " << root["id"].asString() << ", id match!" << endl;
+			std::string message = JsonLoginMessageSend(true);
+			sendMessage(getSocket(), message.c_str());
+			cout << "Main server connection succeeded. " << " (" << getIP() << " : " << getPort() << ")" << endl;
+			throw ChatException(1101);
+		}
+		else
+		{
+			std::string message = JsonLoginMessageSend(false);
+			sendMessage(getSocket(), message.c_str());
+			cout << "id mismatch. " << " (" << getIP() << " : " << getPort() << ")" << endl;
 		}
 		break;
-	defalut:
-		return false;
+	case MessageType::TEXT_MESSAGE:
+	{
+	}
+	break;
+	default:
 		break;
 	}
-	return false;
 }
 
 std::string User::JsonLoginMessageSend(bool pass)
@@ -97,7 +108,7 @@ std::string User::JsonLoginMessageSend(bool pass)
 	// summery : LoginServer -> Client 메세지 송신 이전에 Json Formatting.
 	Json::Value root;
 	Json::FastWriter fastWriter;
-	root["type"] = 0;
+	root["type"] = 1;
 	root["pass"] = pass;
 	root["ip"] = "127.0.0.1"; // 메인서버의 고정 ip
 	root["port"] = 3495;	  // 메인서버의 고정 port
@@ -108,28 +119,14 @@ void User::recvMessage(char *buf) {
 	Message msg;
 	int len = 0;
 	memset(&msg, 0, sizeof(Message));
-
 	if (recv(this->client_socket, (char*)&msg, sizeof(Message), 0) <= 0) {
 		throw ChatException(1100);
 	}
 	len = strnlen(msg.data, User::MAXSTRLEN);
 	strncpy(buf, msg.data, strnlen(msg.data, User::MAXSTRLEN));
 	buf[len] = 0;
-
 	std::string message(buf);
-	if (JsonLoginMessageRecv(message)) // 로그인에 성공하면
-	{
-		std::string message = JsonLoginMessageSend(true);
-		sendMessage(getSocket(), message.c_str());
-		cout << "Main server connection succeeded. " << " (" << getIP() << " : " << getPort() << ")" << endl;
-		throw ChatException(1101);
-	}
-	else
-	{
-		std::string message = JsonLoginMessageSend(false);
-		sendMessage(getSocket(), message.c_str());
-		cout << "id mismatch. " << " (" << getIP() << " : " << getPort() << ")" << endl;
-	}
+	ParseMessage(message);
 }
 
 void User::sendMessageAll(const char *buf) {

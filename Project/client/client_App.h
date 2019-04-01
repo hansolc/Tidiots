@@ -11,6 +11,11 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+namespace MessageType
+{
+	enum Type { LOGIN_PASS = 1, TEXT_MESSAGE = 2, ENTERROOM_REQUSET = 3 };
+}
+
 class client_App {
 private:
 	char serverip[16];

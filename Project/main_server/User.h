@@ -15,6 +15,7 @@ using std::cin;
 using std::endl;
 using std::vector;
 using std::stringstream;
+#include "json.h"
 
 class RecvThread;
 class User;
@@ -30,7 +31,9 @@ private:
 	static const int MAXSTRLEN;
 
 	void recvMessage(char *buf);
-	void User::sendMessage(SOCKET socket, const char *buf=nullptr);
+	void ParseMessage(std::string message);
+	void sendMessage(SOCKET socket, const char *buf=nullptr);
+
 public:
 	User(SOCKET cs, SOCKADDR_IN ca);
 	User(const User &user) {}
@@ -42,11 +45,11 @@ public:
 	SOCKET getSocket() const;
 	void closeSession();
 
-	void User::sendMessageAll(const char *buf=nullptr);
+	void sendMessageAll(const char *buf=nullptr);
+	void sendMessageInRoom(const char *buf = nullptr);
+	void User::printRoomInfoList();
 
 	DWORD run(void);
-	void printLeaveUser(const User &user) const;
-
 };
 
 #endif

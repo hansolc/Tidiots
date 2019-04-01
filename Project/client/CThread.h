@@ -21,7 +21,11 @@ public:
 	CThread() : hThread( NULL ), ThreadID( 0 ) {}
 	
 	void ThreadClose() {
-		if( hThread ) CloseHandle( hThread );
+		if (hThread)
+		{
+			TerminateThread(hThread, ThreadID);
+			CloseHandle(hThread);
+		}
 	}
 
 	bool start();

@@ -17,6 +17,11 @@ using std::stringstream;
 using std::cout;
 using std::endl;
 
+namespace MessageType
+{
+	enum Type { LOGIN_PASS = 1, TEXT_MESSAGE = 2, ENTERROOM_REQUSET = 3 };
+}
+
 class login_server_App {
 private:
 	ChattingServer chattingserver;

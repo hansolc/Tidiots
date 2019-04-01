@@ -3,6 +3,7 @@
 #include <iostream>
 
 vector<User*> main_server_App::userList = vector<User*>();
+vector<User*> main_server_App::Room_userList = vector<User*>();
 const int main_server_App::MAXUSER = 10;
 HANDLE main_server_App::hMutex = CreateMutex(NULL, FALSE, NULL);
 
@@ -35,9 +36,6 @@ void main_server_App::start() {
 		main_server_App::userList.push_back(user);
 		ReleaseMutex(main_server_App::hMutex);
 		printNewUser(user);
-		stringstream oss;
-		oss << "(" << user->getIP() << ":" << user->getPort() << ") : " << "User connected. ";
-		user->sendMessageAll(oss.str().c_str());
 		user->start();
 	}
 }

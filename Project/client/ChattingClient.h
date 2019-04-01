@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <WinSock2.h>
 #include "CThread.h"
+#include <thread>
 #include "ChatException.h"
 #include "json.h"
 
@@ -17,10 +18,10 @@ class RecvThread;
 class SendRecvInterface;
 
 namespace UserCommand {
-	const char * const EXIT = "/exit";
+	const char* const EXIT = "/exit";
 };
 
-typedef struct _MSG{
+typedef struct _MSG {
 	char data[256];
 } Message;
 
@@ -30,14 +31,16 @@ private:
 	RecvThread *rt;
 	SOCKET client_socket;
 	SOCKADDR_IN server_address;
-
 	void connectServer();
+
 public:
 	ChattingClient(const char *ip, int port);
 	~ChattingClient();
 
-	void cc_bind(const char *ip, int port);
 	ChattingClient& getChattingClient();
+	SOCKET& getClientSocket();
+	void RedirectConnection(const char *ip, int port);
+	void RedirectSocket(SOCKET sock);
 	int run();
 
 	static const int MAXSTRLEN;
@@ -46,9 +49,9 @@ public:
 
 class SendRecvInterface : public CThread {
 public:
-	virtual DWORD run(void)=0;
-	void sendMessage(SOCKET socket, const char *buf);
-	void recvMessage(SOCKET socket, char *buf);
+	virtual DWORD run(void) = 0;
+	int sendMessage(SOCKET socket, const char *buf);
+	int recvMessage(SOCKET socket, char *buf);
 	void gotoxy(int x, int y);
 };
 
@@ -56,32 +59,25 @@ public:
 class SendThread : public SendRecvInterface {
 private:
 	SOCKET client_socket;
-
+	ChattingClient chatting_client;
 public:
-	enum { LOGIN_PASS = 0 }; // 메세지 타입 정의
-
-	SendThread(SOCKET cs);
+	SendThread(SOCKET cs, ChattingClient& cc);
+	void RedirectSocket(SOCKET sock);
 	virtual DWORD run(void);
-
 	bool exitUser(const char *buf);
 	void printcin(const char*);
-	std::string LoginRequestMessageToJson(std::string message);
+	std::string ConvertMessageToJson();
 };
 
 class RecvThread : public SendRecvInterface {
 private:
 	SOCKET client_socket;
 	ChattingClient chatting_client;
-	
-
 public:
-	enum { LOGIN_PASS = 0 }; // 메세지 타입 정의
-
 	RecvThread(SOCKET cs, ChattingClient& cc);
+	void RedirectSocket(SOCKET sock);
 	virtual DWORD run(void);
-	void printcout(const char*);
-	bool check_login(const char* buf);
-	Json::Value LoginRequestMessageRecv(std::string message);
+	Json::Value ParseMessage(std::string message);
 };
 
 #endif
