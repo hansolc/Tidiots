@@ -1,15 +1,18 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(387,5): warning MSB8028: 중간 디렉터리(Debug\)에 다른 프로젝트(server.vcxproj)에서 공유하는 파일이 포함되어 있습니다.  이로 인해 잘못된 정리 및 다시 빌드 동작이 수행될 수 있습니다.
-  User.cpp
-c:\users\hsj\documents\tidiots\project\server\user.cpp(20): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1848): note: 'inet_ntoa' 선언을 참조하십시오.
-c:\users\hsj\documents\tidiots\project\server\user.cpp(126): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\string.h(343): note: 'strncpy' 선언을 참조하십시오.
-c:\users\hsj\documents\tidiots\project\server\user.cpp(139): warning C4101: 'e' :참조되지 않은 지역 변수입니다.
-c:\users\hsj\documents\tidiots\project\server\user.cpp(150): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\string.h(343): note: 'strncpy' 선언을 참조하십시오.
-  코드를 생성하고 있습니다...
-  건너뛰고 있습니다... (관련된 변경 내용 없음)
-  server.cpp
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: 중간 디렉터리(Debug\)에 다른 프로젝트(server.vcxproj)에서 공유하는 파일이 포함되어 있습니다.  이로 인해 잘못된 정리 및 다시 빌드 동작이 수행될 수 있습니다.
+  jsoncpp.cpp
   login_server_App.cpp
   ChattingServer.cpp
-  server.vcxproj -> C:\Users\HSJ\Documents\Tidiots\Project\Debug\login_server.exe
+c:\users\choiy\documents\cocozy\project\server\chattingserver.cpp(17): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\um\winsock2.h(1830): note: 'inet_addr' 선언을 참조하십시오.
+  CThread.cpp
+  server.cpp
+  User.cpp
+c:\users\choiy\documents\cocozy\project\server\user.cpp(20): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\um\winsock2.h(1848): note: 'inet_ntoa' 선언을 참조하십시오.
+c:\users\choiy\documents\cocozy\project\server\user.cpp(126): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\string.h(338): note: 'strncpy' 선언을 참조하십시오.
+c:\users\choiy\documents\cocozy\project\server\user.cpp(139): warning C4101: 'e' :참조되지 않은 지역 변수입니다.
+c:\users\choiy\documents\cocozy\project\server\user.cpp(150): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\string.h(338): note: 'strncpy' 선언을 참조하십시오.
+  코드를 생성하고 있습니다...
+  server.vcxproj -> C:\Users\choiy\Documents\cocozy\Project\Debug\login_server.exe
