@@ -19,7 +19,7 @@ using std::endl;
 
 namespace MessageType
 {
-	enum Type { LOGIN_PASS = 1, TEXT_MESSAGE = 2, ENTERROOM_REQUSET = 3 };
+	enum Type { LOGIN_PASS = 1, TEXT_MESSAGE = 2, ENTERROOM_REQUSET = 3, NEW_ACCOUNT = 4 };
 }
 
 class login_server_App {

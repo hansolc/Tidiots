@@ -1,6 +1,13 @@
 
 #include "User.h"
 #include "login_server_App.h"
+#include "mysql.h"
+
+#define DB_HOST "127.0.0.1"
+#define DB_ID "root"
+#define DB_PW "root"
+#define DB_NAME "Chat_Member"
+
 
 const int User::MAXSTRLEN = 255;
 
@@ -78,26 +85,88 @@ void User::ParseMessage(std::string message)
 
 	switch (type)
 	{
-	case MessageType::LOGIN_PASS:
-		if (root["id"].asString() == "abc") // ID 대조 작업, 추후에 DB를 연동한 계정 대조 기능 추가해야 함.
+	case MessageType::LOGIN_PASS: // ID 대조작업 DB 구현 GUI 연결되야 구현 가능
+		MYSQL* connection = NULL, conn;  //connect
+		MYSQL_RES* sql_result;
+		MYSQL_ROW sql_row;
+		int query_stat;
+		int i;
+
+		char query[255];
+
+		mysql_init(&conn);
+
+		//DB 연결
+		connection = mysql_real_connect(&conn, DB_HOST, DB_ID, DB_PW, DB_NAME,
+			3306, (char*)NULL, 0);
+		if (connection == NULL)
 		{
-			cout << "value : " << root["id"].asString() << ", id match!" << endl;
-			std::string message = JsonLoginMessageSend(true);
-			sendMessage(getSocket(), message.c_str());
-			cout << "Main server connection succeeded. " << " (" << getIP() << " : " << getPort() << ")" << endl;
-			throw ChatException(1101);
+			cout << "Mysql connection error: " << mysql_error(&conn) << endl;
 		}
-		else
+
+		// SELECT문 구현 IDtext, PWtext 부분이 GUI 에서 입력값 받는부분
+		// id,pw 에 입력된 정보와 Student table 의 레코드 값과 일치하는지 확인한다.
+		query_stat = mysql_query(connection, "select * from Chat_Member.student where studentID = '" 
+										+ IDtext->Text + "' and studentPW = '" + PWtext->Text + "'; ");
+
+		if (query_stat != 0)
 		{
 			std::string message = JsonLoginMessageSend(false);
 			sendMessage(getSocket(), message.c_str());
-			cout << "id mismatch. " << " (" << getIP() << " : " << getPort() << ")" << endl;
+			cout << " 로그인 실패 " << mysql_error(&conn) << endl;
+		}
+		else
+		{
+			cout << " 로그인 성공 " << endl;
+			std::string message = JsonLoginMessageSend(true);
+			sendMessage(getSocket(), message.c_str());
+			throw ChatException(1101);
 		}
 		break;
 	case MessageType::TEXT_MESSAGE:
 	{
 	}
 	break;
+	case MessageType::NEW_ACCOUNT:
+		MYSQL* connection = NULL, conn;  //connect
+		MYSQL_RES* sql_result;
+		MYSQL_ROW sql_row;
+		int query_stat;
+		int i;
+
+		char query[255];
+
+		mysql_init(&conn);
+
+		//DB 연결
+		connection = mysql_real_connect(&conn, DB_HOST, DB_ID, DB_PW, DB_NAME,
+			3306, (char*)NULL, 0);
+		if (connection == NULL)
+		{
+			cout << "Mysql connection error: " << mysql_error(&conn) << endl;
+	    }
+		//레코드 삽입 회원가입 정보 입력되는 부분
+		// IDtext 와 PWtext 는 따로 GUI 와 연동되야한다.
+		//INSERT 문으로 Student 테이블에 새로운 레코드값을 등록한다.
+		query_stat = mysql_query(connection, "INSERT INTO Student VALUES ('" +
+								IDtext->text + "','" + PWtext->text + "','" + ");");
+
+		
+		if (query_stat != 0)
+		{
+			std::string message = JsonLoginMessageSend(false); // 이부분 회원가입 실패 메세지로 바꿔야함
+			sendMessage(getSocket(), message.c_str());
+			cout << " 회원가입 실패 " << mysql_error(&conn) << endl;
+		}
+		else
+		{
+			cout << " 회원가입 성공 " << endl;
+			std::string message = JsonLoginMessageSend(true); // 이부분 회원가입 완료 메세지로 바꿔야함
+			sendMessage(getSocket(), message.c_str());
+			throw ChatException(1101);  
+		}
+
+		break;
 	default:
 		break;
 	}
