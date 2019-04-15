@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "server", "server\server.vcxproj", "{ACE172D7-73F5-4954-8B33-7770F52EBE36}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "client", "client\client.vcxproj", "{528BB228-A79E-44CD-A0B8-2A712D24FEE9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "login_server", "server\server.vcxproj", "{ACE172D7-73F5-4954-8B33-7770F52EBE36}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main_server", "main_server\main_server.vcxproj", "{1FFD342A-BDCB-4E7A-A704-64DC00DAC07B}"
 EndProject
@@ -23,12 +21,6 @@ Global
 		{ACE172D7-73F5-4954-8B33-7770F52EBE36}.Release|Win32.ActiveCfg = Release|Win32
 		{ACE172D7-73F5-4954-8B33-7770F52EBE36}.Release|Win32.Build.0 = Release|Win32
 		{ACE172D7-73F5-4954-8B33-7770F52EBE36}.Release|x64.ActiveCfg = Release|Win32
-		{528BB228-A79E-44CD-A0B8-2A712D24FEE9}.Debug|Win32.ActiveCfg = Debug|Win32
-		{528BB228-A79E-44CD-A0B8-2A712D24FEE9}.Debug|Win32.Build.0 = Debug|Win32
-		{528BB228-A79E-44CD-A0B8-2A712D24FEE9}.Debug|x64.ActiveCfg = Debug|Win32
-		{528BB228-A79E-44CD-A0B8-2A712D24FEE9}.Release|Win32.ActiveCfg = Release|Win32
-		{528BB228-A79E-44CD-A0B8-2A712D24FEE9}.Release|Win32.Build.0 = Release|Win32
-		{528BB228-A79E-44CD-A0B8-2A712D24FEE9}.Release|x64.ActiveCfg = Release|Win32
 		{1FFD342A-BDCB-4E7A-A704-64DC00DAC07B}.Debug|Win32.ActiveCfg = Debug|Win32
 		{1FFD342A-BDCB-4E7A-A704-64DC00DAC07B}.Debug|Win32.Build.0 = Debug|Win32
 		{1FFD342A-BDCB-4E7A-A704-64DC00DAC07B}.Debug|x64.ActiveCfg = Debug|Win32

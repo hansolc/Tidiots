@@ -106,8 +106,8 @@ void User::ParseMessage(std::string message)
 
 		// SELECT문 구현 IDtext, PWtext 부분이 GUI 에서 입력값 받는부분
 		// id,pw 에 입력된 정보와 Student table 의 레코드 값과 일치하는지 확인한다.
-		query_stat = mysql_query(connection, "select * from Chat_Member.student where studentID = '" 
-										+ IDtext->Text + "' and studentPW = '" + PWtext->Text + "'; ");
+		//query_stat = mysql_query(connection, "select * from Chat_Member.student where studentID = '" 
+		//								+ IDtext->Text + "' and studentPW = '" + PWtext->Text + "'; ");
 
 		if (query_stat != 0)
 		{
@@ -148,8 +148,8 @@ void User::ParseMessage(std::string message)
 		//레코드 삽입 회원가입 정보 입력되는 부분
 		// IDtext 와 PWtext 는 따로 GUI 와 연동되야한다.
 		//INSERT 문으로 Student 테이블에 새로운 레코드값을 등록한다.
-		query_stat = mysql_query(connection, "INSERT INTO Student VALUES ('" +
-								IDtext->text + "','" + PWtext->text + "','" + ");");
+		//query_stat = mysql_query(connection, "INSERT INTO Student VALUES ('" +
+		//						IDtext->text + "','" + PWtext->text + "','" + ");");
 
 		
 		if (query_stat != 0)
