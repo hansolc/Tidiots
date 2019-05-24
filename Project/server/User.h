@@ -31,7 +31,7 @@ private:
 	static const int MAXSTRLEN;
 
 	void ParseMessage(std::string message);
-	std::string JsonLoginMessageSend(bool pass);
+	std::string JsonLoginMessageSend(bool pass, const char *numS515, const char *num516, const char *num517);
 	void recvMessage(char *buf);
 	void User::sendMessage(SOCKET socket, const char *buf = nullptr);
 public:
