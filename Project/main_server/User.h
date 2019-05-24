@@ -46,7 +46,7 @@ public:
 	void closeSession();
 
 	void sendMessageAll(const char *buf=nullptr);
-	void sendMessageInRoom(const char *roomNum, const char *buf = nullptr);
+	void sendMessageInRoom(const char *buf = nullptr);
 	void User::printRoomInfoList();
 
 	DWORD run(void);

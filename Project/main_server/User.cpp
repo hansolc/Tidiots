@@ -87,9 +87,8 @@ void User::ParseMessage(std::string message)
 	switch (type)
 	{
 	case MessageType::TEXT_MESSAGE:
-		cout << "room number is: " << root["room"] << endl;
 		cout << root["text"] << " > message received from " << getSocket() << endl;
-		sendMessageInRoom(root["room"].asString().c_str(),root["text"].asString().c_str());
+		sendMessageInRoom(root["text"].asString().c_str());
 		break;
 	case MessageType::ENTERROOM_REQUSET:
 		cout << getSocket() << " User enters the room." << endl;
@@ -115,8 +114,7 @@ void User::recvMessage(char *buf) {
 	Message msg;
 	int len = 0;
 	memset(&msg, 0, sizeof(Message));
-	cout << this->client_socket << endl;
-	if (recv(this->client_socket, (char*)&msg, sizeof(Message), 0) == SOCKET_ERROR) {
+	if (recv(this->client_socket, (char*)&msg, sizeof(Message), 0) <= 0) {
 		throw ChatException(1100);
 	}
 	len = strnlen(msg.data, User::MAXSTRLEN);
@@ -137,15 +135,13 @@ void User::sendMessageAll(const char *buf) {
 	}
 }
 
-void User::sendMessageInRoom(const char *roomNum, const char *buf)
+void User::sendMessageInRoom(const char *buf)
 {
-	cout << "in sendMessageInRoom" << endl;
 	// 해당 방 내의 유저들에게 메세지를 날리는 메소드.
 	int len = main_server_App::Room_userList.size();
 
 	for (int i = 0; i < len; i++)
 	{
-		cout << "in sendMessageInRoom for loop" << endl;
 		User *user = main_server_App::Room_userList.at(i);
 		if (getSocket() == user->getSocket())
 		{
@@ -155,7 +151,6 @@ void User::sendMessageInRoom(const char *roomNum, const char *buf)
 			root["type"] = MessageType::TEXT_MESSAGE;
 			root["id"] = getSocket();
 			root["text"] = buf;
-			root["room"] = roomNum;
 			str = fastWriter.write(root);
 
 			for (int i = 0; i < len; i++)
@@ -172,7 +167,6 @@ void User::sendMessageInRoom(const char *roomNum, const char *buf)
 }
 
 void User::sendMessage(SOCKET socket, const char *buf) {
-	cout << "in sendMessage" << endl;
 	Message msg;
 	memset(&msg, 0, sizeof(Message));
 
@@ -184,12 +178,10 @@ void User::sendMessage(SOCKET socket, const char *buf) {
 
 	WaitForSingleObject(main_server_App::hMutex, INFINITE);
 	if (send(socket, (const char*)&msg, sizeof(Message), 0) <= 0) {
-		cout << "exception 1100" << endl;
 		ReleaseMutex(main_server_App::hMutex);
 		throw ChatException(1100);
 	}
 	ReleaseMutex(main_server_App::hMutex);
-	cout << "end of sendMessageInRoom" << endl;
 }
 
 void User::printRoomInfoList()

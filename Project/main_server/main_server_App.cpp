@@ -11,7 +11,6 @@ main_server_App::main_server_App() : chattingserver(nullptr, 3495) {
 }
 
 void main_server_App::printNewUser(const User *user) const {
-	cout << "ÃÖÃÊ " << user->getSocket() << endl;
 	cout << "New User Connects with this server. (" << user->getIP() << ", " << user->getPort() << ")" << endl;
 }
 

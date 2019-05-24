@@ -87,15 +87,15 @@ void User::ParseMessage(std::string message)
 	case MessageType::LOGIN_PASS:
 		if (root["id"].asString() == "abc") // ID 대조 작업, 추후에 DB를 연동한 계정 대조 기능 추가해야 함.
 		{
-			cout << "value : " << root["id"].asString() << ", id match!" << "각 방 인원 수: " <<root["numS515"].asString()<<endl;
-			std::string message = JsonLoginMessageSend(true, root["numS515"].asString().c_str(), root["numS516"].asString().c_str(), root["numS517"].asString().c_str());
+			cout << "value : " << root["id"].asString() << ", id match!" << endl;
+			std::string message = JsonLoginMessageSend(true);
 			sendMessage(getSocket(), message.c_str());
 			cout << "Main server connection succeeded. " << " (" << getIP() << " : " << getPort() << ")" << endl;
 			throw ChatException(1101);
 		}
 		else
 		{
-			std::string message = JsonLoginMessageSend(false, root["numS515"].asString().c_str(), root["numS516"].asString().c_str(), root["numS517"].asString().c_str());
+			std::string message = JsonLoginMessageSend(false);
 			sendMessage(getSocket(), message.c_str());
 			cout << "id mismatch. " << " (" << getIP() << " : " << getPort() << ")" << endl;
 		}
@@ -112,7 +112,7 @@ void User::ParseMessage(std::string message)
 	}
 }
 
-std::string User::JsonLoginMessageSend(bool pass, const char *numS515, const char *numS516, const char *numS517)
+std::string User::JsonLoginMessageSend(bool pass)
 {
 	// summery : LoginServer -> Client 메세지 송신 이전에 Json Formatting.
 	Json::Value root;
@@ -121,9 +121,6 @@ std::string User::JsonLoginMessageSend(bool pass, const char *numS515, const cha
 	root["pass"] = pass;
 	root["ip"] = "127.0.0.1"; // 메인서버의 고정 ip
 	root["port"] = 3495;	  // 메인서버의 고정 port
-	root["numS515"] = numS515;
-	root["numS516"] = numS516;
-	root["numS517"] = numS517;
 	return fastWriter.write(root);
 }
 
@@ -131,7 +128,6 @@ void User::recvMessage(char *buf) {
 	Message msg;
 	int len = 0;
 	memset(&msg, 0, sizeof(Message));
-	cout << this->client_socket << endl;
 	if (recv(this->client_socket, (char*)&msg, sizeof(Message), 0) <= 0) {
 		throw ChatException(1100);
 	}
@@ -165,8 +161,7 @@ void User::sendMessage(SOCKET socket, const char *buf) {
 	}
 
 	WaitForSingleObject(login_server_App::hMutex, INFINITE);
-	if (send(socket, (const char*)&msg, sizeof(Message), 0) == SOCKET_ERROR) {
-		cout << "소켓 에러" << endl;
+	if (send(socket, (const char*)&msg, sizeof(Message), 0) <= 0) {
 		ReleaseMutex(login_server_App::hMutex);
 		throw ChatException(1100);
 	}
